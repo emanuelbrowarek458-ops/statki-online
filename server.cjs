@@ -38,7 +38,8 @@ function action(path,data){
   return view(room,p);
 }
 const server=http.createServer(async(req,res)=>{
-  if(req.method==='GET'&&req.url==='/robots.txt'){res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8'});return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n');}
+  if(req.method==='GET'&&req.url==='/robots.txt'){res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8'});return res.end('User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: https://gra-statki-emanuel.onrender.com/sitemap.xml\n');}
+  if(req.method==='GET'&&req.url==='/sitemap.xml'){res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});return res.end('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://gra-statki-emanuel.onrender.com/</loc></url></urlset>');}
   const reply=(status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
   if(req.method==='GET'&&(req.url==='/'||req.url?.startsWith('/?'))){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});return res.end(fs.readFileSync(__dirname+'/index.html'));}
   if(req.method!=='POST'||!req.url.startsWith('/api/'))return reply(404,{error:'Nie znaleziono.'});
